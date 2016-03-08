@@ -11,9 +11,11 @@ var mainState = (function (_super) {
     }
     mainState.prototype.preload = function () {
         _super.prototype.preload.call(this);
+        this.load.image('background', 'assets/Backgrounds/purple.png');
     };
     mainState.prototype.create = function () {
         _super.prototype.create.call(this);
+        this.add.tileSprite(0, 0, 800, 600, 'background');
     };
     mainState.prototype.update = function () {
         _super.prototype.update.call(this);
@@ -22,7 +24,7 @@ var mainState = (function (_super) {
 })(Phaser.State);
 var ShooterGame = (function () {
     function ShooterGame() {
-        this.game = new Phaser.Game(600, 600, Phaser.AUTO, 'gameDiv');
+        this.game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
         this.game.state.add('main', mainState);
         this.game.state.start('main');
     }
