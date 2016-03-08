@@ -50,6 +50,10 @@ class mainState extends Phaser.State {
         else if (this.cursors.right.isDown) {
             this.player.body.acceleration.x = this.ACCELERATION;
         }
+
+        var bank = this.player.body.velocity.x / this.MAXSPEED;
+        this.player.scale.x = 1 - Math.abs(bank) / 2;
+        this.player.angle = bank * 10;
     };
 
 }
