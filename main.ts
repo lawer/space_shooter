@@ -1,8 +1,12 @@
 /// <reference path="phaser/phaser.d.ts"/>
 
 class mainState extends Phaser.State {
-    player: Phaser.Sprite;
-    background: Phaser.TileSprite;
+    private player:Phaser.Sprite;
+    private background:Phaser.TileSprite;
+    private cursors:Phaser.CursorKeys;
+    private ACCELERATION = 800;
+    private DRAG = 450;
+    private MAXSPEED = 500;
 
     preload():void {
         super.preload();
@@ -19,16 +23,35 @@ class mainState extends Phaser.State {
 
         this.player = this.add.sprite(this.world.centerX, this.world.height - 60, 'player');
         this.player.anchor.setTo(0.5, 0.5);
+
+        this.physics.enable(this.player, Phaser.Physics.ARCADE);
+        this.player.body.maxVelocity.setTo(this.MAXSPEED, this.MAXSPEED);
+        this.player.body.drag.setTo(this.DRAG, this.DRAG);
+
+        this.cursors = this.input.keyboard.createCursorKeys();
     }
 
     update():void {
         super.update();
         this.updateBackground();
+        this.updatePlayer();
     }
 
     private updateBackground() {
         this.background.tilePosition.y += 2;
     };
+
+    private updatePlayer() {
+        this.player.body.acceleration.x = 0;
+
+        if (this.cursors.left.isDown) {
+            this.player.body.acceleration.x = -this.ACCELERATION;
+        }
+        else if (this.cursors.right.isDown) {
+            this.player.body.acceleration.x = this.ACCELERATION;
+        }
+    };
+
 }
 
 class ShooterGame {
