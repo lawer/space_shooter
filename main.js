@@ -16,13 +16,18 @@ var mainState = (function (_super) {
     };
     mainState.prototype.create = function () {
         _super.prototype.create.call(this);
-        this.add.tileSprite(0, 0, 800, 600, 'background');
+        this.background = this.add.tileSprite(0, 0, 800, 600, 'background');
         this.player = this.add.sprite(this.world.centerX, this.world.height - 60, 'player');
         this.player.anchor.setTo(0.5, 0.5);
     };
     mainState.prototype.update = function () {
         _super.prototype.update.call(this);
+        this.updateBackground();
     };
+    mainState.prototype.updateBackground = function () {
+        this.background.tilePosition.y += 2;
+    };
+    ;
     return mainState;
 })(Phaser.State);
 var ShooterGame = (function () {
