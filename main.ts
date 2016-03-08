@@ -52,10 +52,20 @@ class mainState extends Phaser.State {
             this.player.body.acceleration.x = this.ACCELERATION;
         }
 
+        if (this.player.x > this.game.width - 50 || this.player.x < 50) {
+            if (this.player.x > this.game.width - 50) {
+                this.player.x = this.game.width - 50;
+            } else {
+                this.player.x = 50;
+            }
+            this.player.body.acceleration.x = 0;
+            this.player.body.velocity.x /= 2;
+        }
+
         var bank = this.player.body.velocity.x / this.MAXSPEED;
         this.player.scale.x = 1 - Math.abs(bank) / 2;
         this.player.angle = bank * 10;
-    };
+    }
 
 }
 
