@@ -12,10 +12,13 @@ var mainState = (function (_super) {
     mainState.prototype.preload = function () {
         _super.prototype.preload.call(this);
         this.load.image('background', 'assets/Backgrounds/purple.png');
+        this.load.image('player', 'assets/PNG/playerShip1_red_low.png');
     };
     mainState.prototype.create = function () {
         _super.prototype.create.call(this);
         this.add.tileSprite(0, 0, 800, 600, 'background');
+        this.player = this.add.sprite(this.world.centerX, this.world.height - 60, 'player');
+        this.player.anchor.setTo(0.5, 0.5);
     };
     mainState.prototype.update = function () {
         _super.prototype.update.call(this);
