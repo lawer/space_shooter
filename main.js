@@ -25,6 +25,7 @@ var mainState = (function (_super) {
         this.physics.enable(this.player, Phaser.Physics.ARCADE);
         this.player.body.maxVelocity.setTo(this.MAXSPEED, this.MAXSPEED);
         this.player.body.drag.setTo(this.DRAG, this.DRAG);
+        this.player.body.collideWorldBounds = true;
         this.cursors = this.input.keyboard.createCursorKeys();
     };
     mainState.prototype.update = function () {
