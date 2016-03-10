@@ -15,7 +15,7 @@ class mainState extends Phaser.State {
 
         this.load.image('background', 'assets/Backgrounds/purple.png');
         this.load.image('player', 'assets/PNG/playerShip1_red_low.png');
-        this.load.image('laser', 'assets/PNG/laserBlue01.png')
+        this.load.image('laser', 'assets/PNG/Lasers/laserBlue01.png')
 
     }
 
@@ -36,7 +36,7 @@ class mainState extends Phaser.State {
         this.lasers.enableBody = true;
         this.lasers.physicsBodyType = Phaser.Physics.ARCADE;
         this.lasers.classType = Laser;
-        this.lasers.createMultiple(10, 'laser');
+        this.lasers.createMultiple(20, 'laser');
 
         this.cursors = this.input.keyboard.createCursorKeys();
     }
@@ -74,15 +74,33 @@ class mainState extends Phaser.State {
         var bank = this.player.body.velocity.x / this.MAXSPEED;
         this.player.scale.x = 1 - Math.abs(bank) / 2;
         this.player.angle = bank * 10;
+
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            this.fire();
+        }
     }
 
+    private fire():void {
+        var laser = this.lasers.getFirstExists(false);
+        if (laser)
+            laser.reset(this.player.x, this.player.y - this.player.height / 2);
+    }
 }
+
 
 class Laser extends Phaser.Sprite {
 
     constructor(game:Phaser.Game, x:number, y:number, key:string|Phaser.RenderTexture|Phaser.BitmapData|PIXI.Texture, frame:string|number) {
         super(game, x, y, key, frame);
         this.outOfBoundsKill = true;
+        this.checkWorldBounds = true;
+        this.anchor.setTo(0.5, 1);
+        this.game.physics.enable(this, Phaser.Physics.ARCADE);
+    }
+
+    update():void {
+        super.update();
+        this.body.velocity.y = -300;
     }
 }
 

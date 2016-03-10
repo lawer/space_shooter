@@ -16,7 +16,7 @@ var mainState = (function (_super) {
         _super.prototype.preload.call(this);
         this.load.image('background', 'assets/Backgrounds/purple.png');
         this.load.image('player', 'assets/PNG/playerShip1_red_low.png');
-        this.load.image('laser', 'assets/PNG/laserBlue01.png');
+        this.load.image('laser', 'assets/PNG/Lasers/laserBlue01.png');
     };
     mainState.prototype.create = function () {
         _super.prototype.create.call(this);
@@ -31,7 +31,7 @@ var mainState = (function (_super) {
         this.lasers.enableBody = true;
         this.lasers.physicsBodyType = Phaser.Physics.ARCADE;
         this.lasers.classType = Laser;
-        this.lasers.createMultiple(10, 'laser');
+        this.lasers.createMultiple(20, 'laser');
         this.cursors = this.input.keyboard.createCursorKeys();
     };
     mainState.prototype.update = function () {
@@ -63,6 +63,14 @@ var mainState = (function (_super) {
         var bank = this.player.body.velocity.x / this.MAXSPEED;
         this.player.scale.x = 1 - Math.abs(bank) / 2;
         this.player.angle = bank * 10;
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            this.fire();
+        }
+    };
+    mainState.prototype.fire = function () {
+        var laser = this.lasers.getFirstExists(false);
+        if (laser)
+            laser.reset(this.player.x, this.player.y - this.player.height / 2);
     };
     return mainState;
 })(Phaser.State);
@@ -71,8 +79,15 @@ var Laser = (function (_super) {
     function Laser(game, x, y, key, frame) {
         _super.call(this, game, x, y, key, frame);
         this.outOfBoundsKill = true;
+        this.checkWorldBounds = true;
+        this.anchor.setTo(0.5, 1);
+        this.game.physics.enable(this, Phaser.Physics.ARCADE);
     }
 
+    Laser.prototype.update = function () {
+        _super.prototype.update.call(this);
+        this.body.velocity.y = -300;
+    };
     return Laser;
 })(Phaser.Sprite);
 var ShooterGame = (function () {
