@@ -16,6 +16,7 @@ var mainState = (function (_super) {
         _super.prototype.preload.call(this);
         this.load.image('background', 'assets/Backgrounds/purple.png');
         this.load.image('player', 'assets/PNG/playerShip1_red_low.png');
+        this.load.image('laser', 'assets/PNG/laserBlue01.png');
     };
     mainState.prototype.create = function () {
         _super.prototype.create.call(this);
@@ -26,6 +27,12 @@ var mainState = (function (_super) {
         this.player.body.maxVelocity.setTo(this.MAXSPEED, this.MAXSPEED);
         this.player.body.drag.setTo(this.DRAG, this.DRAG);
         this.player.body.collideWorldBounds = true;
+        this.lasers = this.game.add.group();
+        this.lasers.enableBody = true;
+        this.lasers.physicsBodyType = Phaser.Physics.ARCADE;
+        this.lasers.createMultiple(10, 'bullet');
+        this.lasers.setAll('outOfBoundsKill', true);
+        this.lasers.setAll('checkWorldBounds', true);
         this.cursors = this.input.keyboard.createCursorKeys();
     };
     mainState.prototype.update = function () {

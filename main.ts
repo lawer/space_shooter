@@ -4,6 +4,8 @@ class mainState extends Phaser.State {
     private player:Phaser.Sprite;
     private background:Phaser.TileSprite;
     private cursors:Phaser.CursorKeys;
+    private lasers:Phaser.Group;
+
     private ACCELERATION = 800;
     private DRAG = 450;
     private MAXSPEED = 500;
@@ -13,6 +15,7 @@ class mainState extends Phaser.State {
 
         this.load.image('background', 'assets/Backgrounds/purple.png');
         this.load.image('player', 'assets/PNG/playerShip1_red_low.png');
+        this.load.image('laser', 'assets/PNG/laserBlue01.png')
 
     }
 
@@ -28,6 +31,13 @@ class mainState extends Phaser.State {
         this.player.body.maxVelocity.setTo(this.MAXSPEED, this.MAXSPEED);
         this.player.body.drag.setTo(this.DRAG, this.DRAG);
         this.player.body.collideWorldBounds = true;
+
+        this.lasers = this.game.add.group();
+        this.lasers.enableBody = true;
+        this.lasers.physicsBodyType = Phaser.Physics.ARCADE;
+        this.lasers.createMultiple(10, 'bullet');
+        this.lasers.setAll('outOfBoundsKill', true);
+        this.lasers.setAll('checkWorldBounds', true);
 
         this.cursors = this.input.keyboard.createCursorKeys();
     }
