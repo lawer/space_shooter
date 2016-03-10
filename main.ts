@@ -35,9 +35,8 @@ class mainState extends Phaser.State {
         this.lasers = this.game.add.group();
         this.lasers.enableBody = true;
         this.lasers.physicsBodyType = Phaser.Physics.ARCADE;
-        this.lasers.createMultiple(10, 'bullet');
-        this.lasers.setAll('outOfBoundsKill', true);
-        this.lasers.setAll('checkWorldBounds', true);
+        this.lasers.classType = Laser;
+        this.lasers.createMultiple(10, 'laser');
 
         this.cursors = this.input.keyboard.createCursorKeys();
     }
@@ -77,6 +76,14 @@ class mainState extends Phaser.State {
         this.player.angle = bank * 10;
     }
 
+}
+
+class Laser extends Phaser.Sprite {
+
+    constructor(game:Phaser.Game, x:number, y:number, key:string|Phaser.RenderTexture|Phaser.BitmapData|PIXI.Texture, frame:string|number) {
+        super(game, x, y, key, frame);
+        this.outOfBoundsKill = true;
+    }
 }
 
 class ShooterGame {

@@ -30,9 +30,8 @@ var mainState = (function (_super) {
         this.lasers = this.game.add.group();
         this.lasers.enableBody = true;
         this.lasers.physicsBodyType = Phaser.Physics.ARCADE;
-        this.lasers.createMultiple(10, 'bullet');
-        this.lasers.setAll('outOfBoundsKill', true);
-        this.lasers.setAll('checkWorldBounds', true);
+        this.lasers.classType = Laser;
+        this.lasers.createMultiple(10, 'laser');
         this.cursors = this.input.keyboard.createCursorKeys();
     };
     mainState.prototype.update = function () {
@@ -67,6 +66,15 @@ var mainState = (function (_super) {
     };
     return mainState;
 })(Phaser.State);
+var Laser = (function (_super) {
+    __extends(Laser, _super);
+    function Laser(game, x, y, key, frame) {
+        _super.call(this, game, x, y, key, frame);
+        this.outOfBoundsKill = true;
+    }
+
+    return Laser;
+})(Phaser.Sprite);
 var ShooterGame = (function () {
     function ShooterGame() {
         this.game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameDiv');
